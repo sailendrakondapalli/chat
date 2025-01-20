@@ -1,0 +1,53 @@
+<div>
+    <h1>Welcome, <%= username %>!,<p id="greeting"></p></h1>
+    <div id="messages">
+      <% messages.forEach((msg) => { %>
+        <p><strong><%= msg.username %>:</strong> <%= msg.message %></p>
+      <% }) %>
+    </div>
+    <form id="messageForm">
+      <input type="text" id="messageInput" placeholder="Type your message..." required />
+      <button type="submit">Send</button>
+    </form>
+  </div>
+
+
+  <script>
+    
+    const now = new Date();
+    const hours = now.getHours();
+    let greeting;
+    if (hours >= 5 && hours < 12) {
+      greeting = "Good Morning!";
+    } else if (hours >= 12 && hours < 17) {
+      greeting = "Good Afternoon!";
+    } else if (hours >= 17 && hours < 21) {
+      greeting = "Good Evening!";
+    } else {
+      greeting = "Good Night!";
+    }
+    document.getElementById("greeting").textContent = greeting;
+  </script>
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    const socket = io();
+    const userId = '<%= userId %>';
+    const username = '<%= username %>';
+    const messageForm = document.getElementById('messageForm');
+    const messageInput = document.getElementById('messageInput');
+  
+    socket.on('message', (data) => {
+      const messagesDiv = document.getElementById('messages');
+      const messageElement = document.createElement('p');
+      messageElement.innerHTML = `<strong>${data.username}:</strong> ${data.message}`;
+      messagesDiv.appendChild(messageElement);
+    });
+  
+    messageForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const message = messageInput.value;
+      socket.emit('message', { userId, username, message });
+      messageInput.value = '';
+    });
+  </script>
+  
