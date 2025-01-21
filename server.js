@@ -24,7 +24,10 @@ app.use(bodyParser.json());
 app.set('view engine', 'ejs');
 
 // Database connection
-mongoose.connect(process.env.url)
+mongoose.connect(process.env.url), {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+})
   .then(() => console.log('Database connected successfully'))
   .catch((err) => console.error('Database connection error:', err));
 
