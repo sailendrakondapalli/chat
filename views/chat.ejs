@@ -11,11 +11,12 @@
     <div  class="chat-container">
         
         <h1>Hi, <%= username %> Welcome   <p id="greeting"></p></h1>
-        <div id="messages" class="messages-container">
+       <h4>Devloped By Sailendra</h4>
+<div id="messages" class="messages-container">
           <% messages.forEach((msg) => { %>
             <p><strong><%= msg.username %>:</strong> <%= msg.message %></p>
           <% }) %>
-<h4>Devloped By Sailendra</h4>
+
         </div>
         <form id="messageForm" class="message-form">
           <input type="text" id="messageInput" placeholder="Type your message..." required />
